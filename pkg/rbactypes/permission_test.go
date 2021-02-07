@@ -95,3 +95,101 @@ func TestPermission_IsAllowed(t *testing.T) {
 		})
 	}
 }
+
+func TestPermission_Contains(t *testing.T) {
+	type fields struct {
+		Verbs         util.StringSet
+		ResourceNames util.StringSet
+	}
+	type args struct {
+		c *Permission
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   bool
+	}{
+		{
+			name: "true by verb all - 1",
+			fields: fields{
+				Verbs:         util.NewStringSetFromSlice([]string{rbacv1.VerbAll}),
+				ResourceNames: util.NewStringSetFromSlice([]string{"test", "test2"}),
+			},
+			args: args{
+				c: &Permission{
+					Verbs:         util.NewStringSetFromSlice([]string{rbacv1.VerbAll}),
+					ResourceNames: util.NewStringSetFromSlice([]string{"test"}),
+				},
+			},
+			want: true,
+		},
+		{
+			name: "true by verb all - 2",
+			fields: fields{
+				Verbs:         util.NewStringSetFromSlice([]string{rbacv1.VerbAll}),
+				ResourceNames: util.NewStringSetFromSlice([]string{"test", "test2"}),
+			},
+			args: args{
+				c: &Permission{
+					Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+					ResourceNames: util.NewStringSetFromSlice([]string{"test"}),
+				},
+			},
+			want: true,
+		},
+		{
+			name: "true by empty resource names all - 1",
+			fields: fields{
+				Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+				ResourceNames: nil,
+			},
+			args: args{
+				c: &Permission{
+					Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+					ResourceNames: util.NewStringSetFromSlice([]string{"test"}),
+				},
+			},
+			want: true,
+		},
+		{
+			name: "false by verb",
+			fields: fields{
+				Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+				ResourceNames: nil,
+			},
+			args: args{
+				c: &Permission{
+					Verbs:         util.NewStringSetFromSlice([]string{"create", "update"}),
+					ResourceNames: util.NewStringSetFromSlice([]string{"test"}),
+				},
+			},
+			want: false,
+		},
+		{
+			name: "false by resource names",
+			fields: fields{
+				Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+				ResourceNames: util.NewStringSetFromSlice([]string{"test"}),
+			},
+			args: args{
+				c: &Permission{
+					Verbs:         util.NewStringSetFromSlice([]string{"create"}),
+					ResourceNames: util.NewStringSetFromSlice([]string{"test", "test2"}),
+				},
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &Permission{
+				Verbs:         tt.fields.Verbs,
+				ResourceNames: tt.fields.ResourceNames,
+			}
+			if got := p.Contains(tt.args.c); got != tt.want {
+				t.Errorf("Permission.Contains() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

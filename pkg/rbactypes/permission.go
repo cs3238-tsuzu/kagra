@@ -56,5 +56,5 @@ func (p *Permission) Contains(c *Permission) bool {
 		return false
 	}
 
-	return p.Verbs.ContainsSet(c.Verbs)
+	return p.Verbs.Contains(rbacv1.VerbAll) || p.Verbs.ContainsSet(c.Verbs)
 }
