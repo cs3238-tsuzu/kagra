@@ -11,6 +11,23 @@ type Permission struct {
 	ResourceNames util.StringSet
 }
 
+// NewPermissionFromPolicyRule initializes Permission from PolicyRule
+func NewPermissionFromPolicyRule(rule *rbacv1.PolicyRule) *Permission {
+	perm := &Permission{
+		Verbs:         util.NewStringSet(),
+		ResourceNames: util.NewStringSet(),
+	}
+
+	for _, verb := range rule.Verbs {
+		perm.Verbs.Insert(verb)
+	}
+	for _, rn := range rule.ResourceNames {
+		perm.ResourceNames.Insert(rn)
+	}
+
+	return perm
+}
+
 // Allows returns if the verb and resourceName was allowed in this permission
 func (p *Permission) Allows(verb, resourceName string) bool {
 	if !p.AllowsVerb(verb) {
