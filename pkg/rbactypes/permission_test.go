@@ -89,7 +89,7 @@ func TestPermission_IsAllowed(t *testing.T) {
 				Verbs:         tt.fields.Verbs,
 				ResourceNames: tt.fields.ResourceNames,
 			}
-			if got := p.IsAllowed(tt.args.verb, tt.args.resourceName); got != tt.want {
+			if got := p.Allows(tt.args.verb, tt.args.resourceName); got != tt.want {
 				t.Errorf("Permission.IsAllowed() = %v, want %v", got, tt.want)
 			}
 		})

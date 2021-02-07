@@ -18,6 +18,17 @@ func (pms Permissions) Allows(verb, resourceName string) bool {
 	return false
 }
 
+// DeniesAll returns if all requests will be rejected by these permissions
+func (pms Permissions) DeniesAll() bool {
+	for _, p := range pms {
+		if !p.DeniesAll() {
+			return false
+		}
+	}
+
+	return true
+}
+
 // Minify organizes permissions
 // TODO: Better algorithm (current: O(N^2))
 func (pms *Permissions) Minify() {
