@@ -7,10 +7,10 @@ import (
 // Permissions bundles some Permission reousrces
 type Permissions []*Permission
 
-// IsAllowed returns if the verb and resourceName was allowed in these permissions
-func (pms Permissions) IsAllowed(verb, resourceName string) bool {
+// Allows returns if the verb and resourceName was allowed in these permissions
+func (pms Permissions) Allows(verb, resourceName string) bool {
 	for _, p := range pms {
-		if p.IsAllowed(verb, resourceName) {
+		if p.Allows(verb, resourceName) {
 			return true
 		}
 	}
@@ -39,7 +39,7 @@ func (pms *Permissions) Minify() {
 		Verbs: generalVerbs,
 	}
 
-	if general.IsAllAllowed() {
+	if general.AllowsAll() {
 		*pms = []*Permission{general}
 
 		return

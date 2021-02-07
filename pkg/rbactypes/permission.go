@@ -11,9 +11,9 @@ type Permission struct {
 	ResourceNames util.StringSet
 }
 
-// IsAllowed returns if the verb and resourceName was allowed in this permission
-func (p *Permission) IsAllowed(verb, resourceName string) bool {
-	if !p.IsAllowedVerb(verb) {
+// Allows returns if the verb and resourceName was allowed in this permission
+func (p *Permission) Allows(verb, resourceName string) bool {
+	if !p.AllowsVerb(verb) {
 		return false
 	}
 
@@ -24,9 +24,9 @@ func (p *Permission) IsAllowed(verb, resourceName string) bool {
 	return p.ResourceNames.Contains(resourceName)
 }
 
-// IsAllowedVerb returns if the verb was allowed, but resource names are ignored.
+// AllowsVerb returns if the verb was allowed, but resource names are ignored.
 // You should use IsAllowed instead.
-func (p *Permission) IsAllowedVerb(verb string) bool {
+func (p *Permission) AllowsVerb(verb string) bool {
 	return p.Verbs.Contains(rbacv1.VerbAll) || p.Verbs.Contains(verb)
 }
 
