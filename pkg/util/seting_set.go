@@ -3,9 +3,9 @@ package util
 // StringSet represents a set of string
 type StringSet map[string]struct{}
 
-// NewStringSet initializes a new empty StringSet
-func NewStringSet() StringSet {
-	return make(StringSet)
+// NewStringSet initializes a new StringSet from args
+func NewStringSet(args ...string) StringSet {
+	return NewStringSetFromSlice(args)
 }
 
 // NewStringSetFromSlice initializes new StringSet
