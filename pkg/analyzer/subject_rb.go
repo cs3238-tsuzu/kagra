@@ -13,7 +13,7 @@ func (a *Analyzer) ListRoleBindingsForSubject(sbj *rbacv1.Subject, namespace str
 	matched := make([]*rbacv1.RoleBinding, 0)
 
 	for ns, rbs := range a.opt.roleBindings {
-		if !(ns == "" || ns == namespace) {
+		if !(namespace == "" || namespace == ns) {
 			continue
 		}
 
