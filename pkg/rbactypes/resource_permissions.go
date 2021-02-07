@@ -11,11 +11,11 @@ type APIResourcePermissions struct {
 	Permissions
 }
 
-// ResourcePermissionsList the list of ResourcePermissions
-type ResourcePermissionsList struct {
+// APIResourcePermissionsList the list of ResourcePermissions
+type APIResourcePermissionsList struct {
 	// GroupVersion is the group and version this APIResourceList is for.
 	GroupVersion string
 
-	// APIResources list ups
-	APIResources []APIResourcePermissions
+	// APIResources is the list of APIResourcePermissions
+	APIResources []*APIResourcePermissions
 }
