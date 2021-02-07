@@ -42,6 +42,11 @@ func (p *Permission) AllowsAll() bool {
 	return len(p.ResourceNames) == 0 && p.Verbs.Contains(rbacv1.VerbAll)
 }
 
+// DeniesAll returns if all requests are rejected by this Permission
+func (p *Permission) DeniesAll() bool {
+	return len(p.Verbs) == 0
+}
+
 // Contains returns if c is covered by this Permission
 func (p *Permission) Contains(c *Permission) bool {
 	if len(p.ResourceNames) == 0 {
