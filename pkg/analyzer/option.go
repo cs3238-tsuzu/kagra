@@ -5,6 +5,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// Option has all resources for Analyzer
 type Option struct {
 	apiResourceLists    map[string]*metav1.APIResourceList
 	roles               map[string]map[string]*rbacv1.Role
@@ -14,10 +15,12 @@ type Option struct {
 	subjects            map[string]*rbacv1.Subject
 }
 
+// NewOption initializes a new empty Option
 func NewOption() *Option {
 	return &Option{}
 }
 
+// AddAPIResourceList adds a new APIResourceList
 func (o *Option) AddAPIResourceList(apiResourceList *metav1.APIResourceList) *Option {
 	if o.apiResourceLists == nil {
 		o.apiResourceLists = make(map[string]*metav1.APIResourceList)
@@ -28,6 +31,7 @@ func (o *Option) AddAPIResourceList(apiResourceList *metav1.APIResourceList) *Op
 	return o
 }
 
+// AddRole adds a new Role
 func (o *Option) AddRole(role *rbacv1.Role) {
 	if o.roles == nil {
 		o.roles = make(map[string]map[string]*rbacv1.Role)
@@ -40,6 +44,7 @@ func (o *Option) AddRole(role *rbacv1.Role) {
 	o.roles[role.Namespace][role.Name] = role
 }
 
+// AddRoleBinding adds a new RoleBinding
 func (o *Option) AddRoleBinding(rb *rbacv1.RoleBinding) {
 	if o.roleBindings == nil {
 		o.roleBindings = make(map[string]map[string]*rbacv1.RoleBinding)
@@ -52,6 +57,7 @@ func (o *Option) AddRoleBinding(rb *rbacv1.RoleBinding) {
 	o.roleBindings[rb.Namespace][rb.Name] = rb
 }
 
+// AddSubject adds a new Subject
 func (o *Option) AddSubject(sbj *rbacv1.Subject) {
 	if o.subjects == nil {
 		o.subjects = make(map[string]*rbacv1.Subject)
