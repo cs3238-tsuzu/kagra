@@ -16,5 +16,6 @@ type ResourcePermissionsList struct {
 	// GroupVersion is the group and version this APIResourceList is for.
 	GroupVersion string
 
+	// APIResources list ups
 	APIResources []APIResourcePermissions
 }

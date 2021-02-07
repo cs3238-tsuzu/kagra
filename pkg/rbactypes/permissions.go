@@ -29,6 +29,19 @@ func (pms Permissions) DeniesAll() bool {
 	return true
 }
 
+// Filter filters Permissions by walk function
+func (pms Permissions) Filter(walk PermissionsFilter) Permissions {
+	res := make(Permissions, 0)
+
+	for _, p := range pms {
+		if walk(p) {
+			res = append(res, p)
+		}
+	}
+
+	return res
+}
+
 // Minify organizes permissions
 // TODO: Better algorithm (current: O(N^2))
 func (pms *Permissions) Minify() {
