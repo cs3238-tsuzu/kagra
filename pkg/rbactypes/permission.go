@@ -37,15 +37,15 @@ func (p *Permission) Minify() {
 	}
 }
 
-// IsAllAllowed returns if all requests are permitted by this Permission
-func (p *Permission) IsAllAllowed() bool {
+// AllowsAll returns if all requests are permitted by this Permission
+func (p *Permission) AllowsAll() bool {
 	return len(p.ResourceNames) == 0 && p.Verbs.Contains(rbacv1.VerbAll)
 }
 
 // Contains returns if c is covered by this Permission
 func (p *Permission) Contains(c *Permission) bool {
 	if len(p.ResourceNames) == 0 {
-		if p.IsAllAllowed() {
+		if p.AllowsAll() {
 			return true
 		}
 
