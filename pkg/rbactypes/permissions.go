@@ -32,6 +32,7 @@ func (pms *Permissions) Minify() {
 
 			continue
 		}
+		specific = append(specific, pm)
 	}
 
 	general := &Permission{
@@ -46,6 +47,10 @@ func (pms *Permissions) Minify() {
 
 	*pms = make(Permissions, 0, len(specific)+1)
 
+	if len(general.Verbs) != 0 {
+		*pms = append(*pms, general)
+	}
+
 	for i := range specific {
 		specific[i].Minify()
 
@@ -55,7 +60,7 @@ func (pms *Permissions) Minify() {
 
 		skipped := false
 		for j := 0; j < i; j++ {
-			if specific[i].Contains(specific[j]) {
+			if specific[j].Contains(specific[i]) {
 				skipped = true
 				break
 			}
