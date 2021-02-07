@@ -67,4 +67,3 @@ func (a *Analyzer) getUserInfoForSubject(sbj *rbacv1.Subject) user.Info {
 
 	return u
 }
-

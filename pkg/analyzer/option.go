@@ -6,7 +6,7 @@ import (
 )
 
 type Option struct {
-	apiResources        map[string]*metav1.APIResource
+	apiResourceLists    map[string]*metav1.APIResourceList
 	roles               map[string]map[string]*rbacv1.Role
 	roleBindings        map[string]map[string]*rbacv1.RoleBinding
 	clusterRoles        map[string]*rbacv1.ClusterRole
@@ -18,12 +18,12 @@ func NewOption() *Option {
 	return &Option{}
 }
 
-func (o *Option) AddAPIResource(apiResource *metav1.APIResource) *Option {
-	if o.apiResources == nil {
-		o.apiResources = make(map[string]*metav1.APIResource)
+func (o *Option) AddAPIResourceList(apiResourceList *metav1.APIResourceList) *Option {
+	if o.apiResourceLists == nil {
+		o.apiResourceLists = make(map[string]*metav1.APIResourceList)
 	}
 
-	o.apiResources[apiResourceKey(apiResource)] = apiResource
+	o.apiResourceLists[apiResourceList.GroupVersion] = apiResourceList
 
 	return o
 }
