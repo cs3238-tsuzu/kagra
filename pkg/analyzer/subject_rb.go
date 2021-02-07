@@ -12,7 +12,7 @@ func (a *Analyzer) ListRoleBindingsForSubject(sbj *rbacv1.Subject, namespace str
 
 	matched := make([]*rbacv1.RoleBinding, 0)
 
-	for ns, rbs := range a.roleBindings {
+	for ns, rbs := range a.opt.roleBindings {
 		if !(ns == "" || ns == namespace) {
 			continue
 		}
@@ -35,7 +35,7 @@ func (a *Analyzer) ListClusterRoleBindingsForSubject(sbj *rbacv1.Subject) []*rba
 
 	matched := make([]*rbacv1.ClusterRoleBinding, 0)
 
-	for _, rb := range a.clusterRoleBindings {
+	for _, rb := range a.opt.clusterRoleBindings {
 		_, ok := appliesTo(u, rb.Subjects, rb.Namespace)
 
 		if ok {

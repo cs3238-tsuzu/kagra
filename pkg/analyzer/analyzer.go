@@ -2,7 +2,7 @@ package analyzer
 
 // Analyzer analyzes Kubernetes RBAC resources
 type Analyzer struct {
-	*Option
+	opt *Option
 }
 
 // NewAnalyzer initializes an Analyzer

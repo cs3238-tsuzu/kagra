@@ -19,7 +19,7 @@ func (a *Analyzer) GetRoleForRoleRef(namespace string, roleRef *rbacv1.RoleRef) 
 		return nil
 	}
 
-	roles, ok := a.roles[namespace]
+	roles, ok := a.opt.roles[namespace]
 
 	if !ok {
 		return nil
@@ -54,7 +54,7 @@ func (a *Analyzer) GetClusterRoleForRoleRef(roleRef *rbacv1.RoleRef) *rbacv1.Clu
 		return nil
 	}
 
-	role, ok := a.clusterRoles[roleRef.Name]
+	role, ok := a.opt.clusterRoles[roleRef.Name]
 
 	if !ok {
 		return nil

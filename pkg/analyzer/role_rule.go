@@ -11,8 +11,8 @@ import (
 
 // ListPermissionsForRole returns associations related to all APIResources for Role
 func (a *Analyzer) ListPermissionsForRole(role *rbacv1.Role) []*rbactypes.APIResourcePermissionsList {
-	rpls := make([]*rbactypes.APIResourcePermissionsList, 0, len(a.apiResourceLists))
-	for _, rclist := range a.apiResourceLists {
+	rpls := make([]*rbactypes.APIResourcePermissionsList, 0, len(a.opt.apiResourceLists))
+	for _, rclist := range a.opt.apiResourceLists {
 		rpl := make([]*rbactypes.APIResourcePermissions, 0, len(rclist.APIResources))
 
 		for _, rc := range rclist.APIResources {
