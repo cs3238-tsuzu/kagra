@@ -46,5 +46,7 @@ type analyzer struct {
 
 // NewAnalyzer initializes an Analyzer
 func NewAnalyzer(opt *Option) Analyzer {
-	return &analyzer{}
+	return &analyzer{
+		opt: opt,
+	}
 }
