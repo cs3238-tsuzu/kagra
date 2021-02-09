@@ -5,12 +5,12 @@ import (
 )
 
 // GetRoleForRoleBinding returns the role specified by RoleBinding, or nil if not exists
-func (a *Analyzer) GetRoleForRoleBinding(rb *rbacv1.RoleBinding) *rbacv1.Role {
+func (a *analyzer) GetRoleForRoleBinding(rb *rbacv1.RoleBinding) *rbacv1.Role {
 	return a.GetRoleForRoleRef(rb.Namespace, &rb.RoleRef)
 }
 
 // GetRoleForRoleRef returns the role specified by RoleRef, or nil if not exists
-func (a *Analyzer) GetRoleForRoleRef(namespace string, roleRef *rbacv1.RoleRef) *rbacv1.Role {
+func (a *analyzer) GetRoleForRoleRef(namespace string, roleRef *rbacv1.RoleRef) *rbacv1.Role {
 	if roleRef.APIGroup != rbacv1.GroupName {
 		return nil
 	}
@@ -35,17 +35,17 @@ func (a *Analyzer) GetRoleForRoleRef(namespace string, roleRef *rbacv1.RoleRef) 
 }
 
 // GetClusterRoleForRoleBinding returns the role specified by RoleBinding, or nil if not exists
-func (a *Analyzer) GetClusterRoleForRoleBinding(rb *rbacv1.RoleBinding) *rbacv1.ClusterRole {
+func (a *analyzer) GetClusterRoleForRoleBinding(rb *rbacv1.RoleBinding) *rbacv1.ClusterRole {
 	return a.GetClusterRoleForRoleRef(&rb.RoleRef)
 }
 
 // GetClusterRoleForClusterRoleBinding returns the role specified by ClusterRoleBinding, or nil if not exists
-func (a *Analyzer) GetClusterRoleForClusterRoleBinding(rb *rbacv1.ClusterRoleBinding) *rbacv1.ClusterRole {
+func (a *analyzer) GetClusterRoleForClusterRoleBinding(rb *rbacv1.ClusterRoleBinding) *rbacv1.ClusterRole {
 	return a.GetClusterRoleForRoleRef(&rb.RoleRef)
 }
 
 // GetClusterRoleForRoleRef returns the role specified by RoleRef, or nil if not exists
-func (a *Analyzer) GetClusterRoleForRoleRef(roleRef *rbacv1.RoleRef) *rbacv1.ClusterRole {
+func (a *analyzer) GetClusterRoleForRoleRef(roleRef *rbacv1.RoleRef) *rbacv1.ClusterRole {
 	if roleRef.APIGroup != rbacv1.GroupName {
 		return nil
 	}

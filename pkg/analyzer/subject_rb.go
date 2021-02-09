@@ -7,7 +7,7 @@ import (
 )
 
 // ListRoleBindingsForSubject returns all role bindings for the subject in the namespace(empty for all namespaces)
-func (a *Analyzer) ListRoleBindingsForSubject(sbj *rbacv1.Subject, namespace string) []*rbacv1.RoleBinding {
+func (a *analyzer) ListRoleBindingsForSubject(sbj *rbacv1.Subject, namespace string) []*rbacv1.RoleBinding {
 	u := a.getUserInfoForSubject(sbj)
 
 	matched := make([]*rbacv1.RoleBinding, 0)
@@ -29,8 +29,8 @@ func (a *Analyzer) ListRoleBindingsForSubject(sbj *rbacv1.Subject, namespace str
 	return matched
 }
 
-// ListClusterRoleBindingsForSubject returns all role bindings for the subject in the namespace(empty for all namespaces)
-func (a *Analyzer) ListClusterRoleBindingsForSubject(sbj *rbacv1.Subject) []*rbacv1.ClusterRoleBinding {
+// ListClusterRoleBindingsForSubject returns all role bindings for the subject
+func (a *analyzer) ListClusterRoleBindingsForSubject(sbj *rbacv1.Subject) []*rbacv1.ClusterRoleBinding {
 	u := a.getUserInfoForSubject(sbj)
 
 	matched := make([]*rbacv1.ClusterRoleBinding, 0)
@@ -46,7 +46,7 @@ func (a *Analyzer) ListClusterRoleBindingsForSubject(sbj *rbacv1.Subject) []*rba
 	return matched
 }
 
-func (a *Analyzer) getUserInfoForSubject(sbj *rbacv1.Subject) user.Info {
+func (a *analyzer) getUserInfoForSubject(sbj *rbacv1.Subject) user.Info {
 	var u *user.DefaultInfo
 	switch sbj.Kind {
 	case rbacv1.UserKind:

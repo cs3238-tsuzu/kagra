@@ -10,7 +10,39 @@ import (
 )
 
 // ListPermissionsForRole returns associations related to all APIResources for Role
-func (a *Analyzer) ListPermissionsForRole(role *rbacv1.Role) []*rbactypes.APIResourcePermissionsList {
+func (a *analyzer) ListPermissionsForRole(role *rbacv1.Role) []*rbactypes.APIResourcePermissionsList {
+	rpls := make([]*rbactypes.APIResourcePermissionsList, 0, len(a.opt.apiResourceLists))
+	for _, rclist := range a.opt.apiResourceLists {
+		rpl := make([]*rbactypes.APIResourcePermissions, 0, len(rclist.APIResources))
+
+		for _, rc := range rclist.APIResources {
+			if !rc.Namespaced {
+				continue
+			}
+
+			perms := permissionFromPolicyRules(role.Rules, &rc, rclist.GroupVersion)
+
+			if perms.DeniesAll() {
+				continue
+			}
+
+			rpl = append(rpl, &rbactypes.APIResourcePermissions{
+				APIResource: &rc,
+				Permissions: perms,
+			})
+		}
+
+		rpls = append(rpls, &rbactypes.APIResourcePermissionsList{
+			GroupVersion: rclist.GroupVersion,
+			APIResources: rpl,
+		})
+	}
+
+	return rpls
+}
+
+// ListPermissionsForClusterRole returns associations related to all APIResources for ClusterRole
+func (a *analyzer) ListPermissionsForClusterRole(role *rbacv1.ClusterRole) []*rbactypes.APIResourcePermissionsList {
 	rpls := make([]*rbactypes.APIResourcePermissionsList, 0, len(a.opt.apiResourceLists))
 	for _, rclist := range a.opt.apiResourceLists {
 		rpl := make([]*rbactypes.APIResourcePermissions, 0, len(rclist.APIResources))
